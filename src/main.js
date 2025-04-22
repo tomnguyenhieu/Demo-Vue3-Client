@@ -2,7 +2,7 @@ import "./assets/main.css";
 
 import { createApp } from "vue";
 import App from "./App.vue";
-import router from "./router.js"
+import router from "./router";
 import { Form, Field, ErrorMessage } from 'vee-validate';
 
 const app = createApp(App)
