@@ -15,30 +15,31 @@
 	<div class="container" id="login-panel">
 		<div class="col-md-3" id="login-form">
 			<h1>LOGIN</h1>
-			<vee-form v-on:submit="login" v-bind:validation-schema="validate">
+			<Form v-on:submit="login" v-bind:validation-schema="validate">
 				<div class="form-group mb-2">
 					<label for="email">Email address</label>
-					<vee-field v-model="email" name="email" type="email" class="form-control" id="email"
+					<Field v-model="email" name="email" type="email" class="form-control" id="email"
 						placeholder="Enter email" />
-					<vee-error-message class="error-message" name="email" />
+					<ErrorMessage class="error-message" name="email" />
 				</div>
 				<div class="form-group mb-2">
 					<label for="password">Password</label>
-					<vee-field v-model="password" name="password" type="password" class="form-control" id="password"
+					<Field v-model="password" name="password" type="password" class="form-control" id="password"
 						placeholder="Enter password" />
-					<vee-error-message class="error-message" name="password" />
+					<ErrorMessage class="error-message" name="password" />
 				</div>
 				<div class="d-flex justify-content-sm-between align-items-center">
 					<button type="submit" class="btn btn-primary">Login</button>
 					<RouterLink to="/register">Register</RouterLink>
 				</div>
-			</vee-form>
+			</Form>
 		</div>
 	</div>
 </template>
 
 <script>
-	import validator from '@/validator';
+	import validator from '@/validator/validator';
+	import { Form, Field, ErrorMessage } from 'vee-validate';
 	import axios from 'axios';
 
 	export default {
@@ -50,8 +51,13 @@
 				user: null
 			};
 		},
+		components: {
+			Form,
+			Field,
+			ErrorMessage
+		},
 		computed: {
-			validate: () => {
+			validate() {
 				return validator.login;
 			}
 		},
