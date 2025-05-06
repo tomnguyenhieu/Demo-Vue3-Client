@@ -1,36 +1,24 @@
-<style>
-	#login-panel {
-		margin: 0 auto;
-	}
-
-	#login-form {
-		margin: 20% auto;
-		border: 1px solid #00000057;
-		padding: 25px;
-		border-radius: 15px;
-	}
-</style>
-
 <template>
-	<div class="container" id="login-panel">
-		<div class="col-md-3" id="login-form">
-			<h1>LOGIN</h1>
-			<Form v-on:submit="login" v-bind:validation-schema="validate">
-				<div class="form-group mb-2">
+	<div class="container mx-auto h-screen flex items-center justify-center">
+		<div class="w-96 border-gray-500 border rounded-xl p-6">
+			<h1 class="text-5xl font-bold text-center pb-4 uppercase">Login</h1>
+			<Form v-on:submit="login" v-bind:validation-schema="validate" class="flex flex-col gap-8">
+				<div class="flex flex-col gap-2">
 					<label for="email">Email address</label>
-					<Field v-model="email" name="email" type="email" class="form-control" id="email"
-						placeholder="Enter email" />
-					<ErrorMessage class="error-message" name="email" />
+					<Field v-model="email" name="email" type="email" class="p-2 border border-gray-400 rounded-lg"
+						id="email" placeholder="Enter email" />
+					<ErrorMessage class="text-red-700" name="email" />
 				</div>
-				<div class="form-group mb-2">
+				<div class="flex flex-col gap-2">
 					<label for="password">Password</label>
-					<Field v-model="password" name="password" type="password" class="form-control" id="password"
-						placeholder="Enter password" />
-					<ErrorMessage class="error-message" name="password" />
+					<Field v-model="password" name="password" type="password"
+						class="p-2 border border-gray-400 rounded-lg" id="password" placeholder="Enter password" />
+					<ErrorMessage class="text-red-700" name="password" />
 				</div>
-				<div class="d-flex justify-content-sm-between align-items-center">
-					<button type="submit" class="btn btn-primary">Login</button>
-					<RouterLink to="/register">Register</RouterLink>
+				<div class="flex flex-col gap-2">
+					<button type="submit" class="bg-green-500 p-3 hover:opacity-75 text-white rounded-lg">Login</button>
+					<RouterLink to="/register" class="text-right text-blue-700 underline hover:opacity-75">Register
+					</RouterLink>
 				</div>
 			</Form>
 		</div>
@@ -48,7 +36,6 @@
 				email: "",
 				password: "",
 				errorMessage: "",
-				user: null
 			};
 		},
 		components: {
@@ -68,8 +55,8 @@
 					password: this.password
 				}).then((res) => {
 					if (res.data.code == 200) {
-						this.user = res.data.data;
-						if (this.user.status != 2) {
+						localStorage.setItem('token', res.data.data.token);
+						if (res.data.data.verified_at == null) {
 							this.$router.push('/auth');
 						} else {
 							this.$router.push('/index');
