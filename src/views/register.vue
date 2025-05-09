@@ -1,7 +1,7 @@
 <template>
-	<div class="container mx-auto h-screen flex items-center justify-center">
-		<div class="w-96 border-gray-500 border rounded-xl p-6">
-			<h1 class="text-5xl font-bold text-center pb-4 uppercase">Register</h1>
+	<div class="container flex items-center justify-center h-screen mx-auto">
+		<div class="p-6 border border-gray-500 w-96 rounded-xl">
+			<h1 class="pb-4 text-5xl font-bold text-center uppercase">Register</h1>
 			<Form v-on:submit="register" v-bind:validation-schema="validate" class="flex flex-col gap-8">
 				<div class="flex flex-col gap-2">
 					<label for="name">Name</label>
@@ -29,7 +29,8 @@
 					<ErrorMessage class="text-red-700" name="re_password" />
 				</div>
 				<div class="flex flex-col gap-2">
-					<button type="submit" class="bg-green-500 p-3 hover:opacity-75 text-white rounded-lg">Login</button>
+					<button type="submit"
+						class="p-3 text-white bg-green-500 rounded-lg hover:opacity-75">Submit</button>
 					<RouterLink to="/login" class="text-right text-blue-700 underline hover:opacity-75">Login
 					</RouterLink>
 				</div>
@@ -71,6 +72,7 @@
 						password: this.password
 					}).then((res) => {
 						if (res.data.code == 200) {
+							alert('Đăng ký thành công!')
 							this.$router.push('/login');
 						} else {
 							console.log(res.data);
