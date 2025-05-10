@@ -11,7 +11,7 @@
 				</div>
 				<div class="flex flex-col gap-2">
 					<label for="code">Code</label>
-					<Field v-model="code" name="code" type="text" class="p-2 border border-gray-400 rounded-lg"
+					<Field v-model="authCode" name="code" type="text" class="p-2 border border-gray-400 rounded-lg"
 						id="password" placeholder="Enter code" />
 					<ErrorMessage class="text-red-700" name="code" />
 				</div>
@@ -38,10 +38,10 @@
 		data() {
 			return {
 				email: "",
-				code: "",
+				authCode: "",
 				errorMessage: "",
 				token: "",
-				authCode: ""
+				genCode: ""
 			};
 		},
 		mounted() {
@@ -66,10 +66,10 @@
 						},
 						'headers': {
 							'Authorization': 'Bearer ' + this.token
-						}
+						},
 					}).then((res) => {
 						if (res.data.code == 200) {
-							this.authCode = res.data.data.code;
+							this.genCode = res.data.data.gen_code;
 						}
 					}).catch((e) => {
 						console.log(e);
@@ -80,7 +80,21 @@
 				}
 			},
 			async auth() {
-				await axios.post();
+				let formData = new FormData();
+				formData.append('gen_code', this.genCode);
+				formData.append('auth_code', this.authCode);
+				await axios.post('http://laravel_1.test/api/auth', formData, {
+					'headers': {
+						'Authorization': 'Bearer ' + this.token
+					}
+				}).then((res) => {
+					if (res.data.code == 200) {
+						this.$router.push('/index');
+					}
+				}).catch((e) => {
+					console.log(e);
+					alert('Không gọi được API');
+				})
 			}
 		}
 	}
